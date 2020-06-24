@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Coffee Tracker</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+
+    <string name="coffee_title_tracking">Coffee Tracking</string>
+    <string name="coffee_statistics">Statistics</string>
+    <string name="coffee_list">Coffee List</string>
+
+    <string name="productivity_rating">Productivity</string>
+    <string name="very_unproductive_rating">Very unproductive...</string>
+    <string name="unproductive_rating">Unproductive</string>
+    <string name="neutral_rating">Neutral</string>
+    <string name="productive_rating">Productive</string>
+    <string name="very_productive_rating">Very productive!</string>
+    <string name="item_productivity_level">Productivity level:</string>
+    <string name="item_coffee_type">Coffee type:</string>
+    <string name="item_caffeine">Caffeine:</string>
+    <string name="item_date">Date:</string>
+</resources>

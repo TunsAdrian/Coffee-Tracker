@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".fragments.CoffeeSelectFragment">
+
+    <Button
+        android:id="@+id/frag_small_coffee"
+        android:layout_width="192dp"
+        android:layout_height="wrap_content"
+        android:text="Small coffee"
+        android:padding="16dp"
+        android:onClick="registerCoffee"
+        android:layout_margin="32dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/frag_medium_coffee"
+        android:layout_width="192dp"
+        android:layout_height="wrap_content"
+        android:text="Medium coffee"
+        android:padding="16dp"
+        android:onClick="registerCoffee"
+        android:layout_margin="32dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/frag_large_coffee"
+        android:layout_width="192dp"
+        android:layout_height="wrap_content"
+        android:text="Large coffee"
+        android:padding="16dp"
+        android:onClick="registerCoffee"
+        android:layout_margin="32dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
+</LinearLayout>
