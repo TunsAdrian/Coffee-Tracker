@@ -4,11 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.coffeetracker2.MainActivity;
 import com.example.coffeetracker2.R;
+import com.example.coffeetracker2.utils.CoffeeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +31,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class StatisticsFragment extends Fragment {
 
     private static final String TAG = "StatisticsFragment";
+    private CoffeeRepository coffeeRepository;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,49 +46,46 @@ public class StatisticsFragment extends Fragment {
     // Update the fields for each attribute in the top of Statistics fragment
     private void setStatistics(View view) {
 
-//        MainActivity mainActivity = (MainActivity) getActivity();
-//
-//        // Set coffee numbers in real time
-//        final TextView coffeeNrToday_TW = view.findViewById(R.id.frag_coffee_today_count);
-//
-//        LiveData<Integer> coffeeNrToday = mainActivity.getCOFFEE_TODAY();
-//        coffeeNrToday.observe(getViewLifecycleOwner(), new Observer<Integer>() {
-//            @Override
-//            public void onChanged(Integer integer) {
-//                coffeeNrToday_TW.setText(integer.toString() + " coffee/s");
-//            }
-//        });
-//
-//        final TextView coffeeNrWeek_TW = view.findViewById(R.id.frag_coffee_week_count);
-//
-//        LiveData<Integer> coffeeNrWeek = mainActivity.getCOFFEE_WEEK();
-//        coffeeNrWeek.observe(getViewLifecycleOwner(), new Observer<Integer>() {
-//            @Override
-//            public void onChanged(Integer integer) {
-//                coffeeNrWeek_TW.setText(integer.toString() + " coffee/s");
-//            }
-//        });
-//
-//        // Set caffeine levels in realtime
-//        final TextView caffeineToday_TW = view.findViewById(R.id.frag_caffeine_today_count);
-//
-//        LiveData<Integer> caffeineToday = mainActivity.getCAFFEINE_TODAY();
-//        caffeineToday.observe(getViewLifecycleOwner(), new Observer<Integer>() {
-//            @Override
-//            public void onChanged(Integer integer) {
-//                caffeineToday_TW.setText(integer.toString() + " mg caffeine");
-//            }
-//        });
-//
-//        final TextView caffeineWeek_TW = view.findViewById(R.id.frag_caffeine_week_count);
-//
-//        LiveData<Integer> caffeineWeek = mainActivity.getCAFFEINE_WEEK();
-//        caffeineWeek.observe(getViewLifecycleOwner(), new Observer<Integer>() {
-//            @Override
-//            public void onChanged(Integer integer) {
-//                caffeineWeek_TW.setText(integer.toString() + " mg caffeine");
-//            }
-//        });
+        final TextView coffeeNrToday_TW = view.findViewById(R.id.frag_coffee_today_count);
+        final TextView coffeeNrWeek_TW = view.findViewById(R.id.frag_coffee_week_count);
+        final TextView caffeineToday_TW = view.findViewById(R.id.frag_caffeine_today_count);
+        final TextView caffeineWeek_TW = view.findViewById(R.id.frag_caffeine_week_count);
+
+        coffeeRepository = new ViewModelProvider(requireActivity()).get(CoffeeRepository.class);
+        coffeeRepository.getCoffeeNrToday().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                coffeeNrToday_TW.setText(integer.toString() + " coffee/s");
+
+            }
+        });
+
+        coffeeRepository.getCoffeeNrThisWeek().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                coffeeNrWeek_TW.setText(integer.toString() + " coffee/s");
+            }
+        });
+
+        coffeeRepository.getCaffeineToday().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+
+                if (integer != null) {
+                    caffeineToday_TW.setText(integer.toString() + " mg caffeine");
+                }
+            }
+        });
+
+        coffeeRepository.getCaffeineThisWeek().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+
+                if(integer != null) {
+                    caffeineWeek_TW.setText(integer.toString() + " mg caffeine");
+                }
+            }
+        });
     }
 
     private void createActivityLevelChart(View v) {

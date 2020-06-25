@@ -43,7 +43,7 @@
             android:id="@+id/frag_caffeine_today_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100 mg caffeine"
+            android:text="0 mg caffeine"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp" />
 
@@ -86,7 +86,7 @@
             android:id="@+id/frag_caffeine_week_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100 mg caffeine"
+            android:text="0 mg caffeine"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp" />
     </LinearLayout>
