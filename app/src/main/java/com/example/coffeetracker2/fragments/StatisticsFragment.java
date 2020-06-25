@@ -24,7 +24,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class StatisticsFragment extends Fragment {
 
-
+    private static final String TAG = "StatisticsFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class StatisticsFragment extends Fragment {
         Axis xAxis = new Axis();
         xAxis.setValues(xAxisValues);
         xAxis.setTextSize(16);
-        xAxis.setTextColor(this.getResources().getColor(R.color.colorAccent));
+        xAxis.setTextColor(this.getResources().getColor(R.color.colorPrimary));
         data.setAxisXBottom(xAxis);
 
         // This section is used to put only whole numbers from 1 to 5(productivity levels) as labels on the y Axis,
@@ -141,7 +141,7 @@ public class StatisticsFragment extends Fragment {
         // Populate yAxis and link it to data's left y Axis
         Axis yAxis = new Axis(yAxisValuesWithLabels);
         yAxis.setName("Productivity level");
-        yAxis.setTextColor(this.getResources().getColor(R.color.colorAccent));
+        yAxis.setTextColor(this.getResources().getColor(R.color.colorPrimary));
         yAxis.setTextSize(16);
         yAxis.setHasLines(true);
         data.setAxisYLeft(yAxis);

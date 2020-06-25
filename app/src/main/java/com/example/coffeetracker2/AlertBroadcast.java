@@ -7,14 +7,6 @@ import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.coffeetracker2.fragments.CoffeeListFragment;
-import com.example.coffeetracker2.fragments.CoffeeSelectFragment;
-import com.example.coffeetracker2.fragments.StatisticsFragment;
 
 import java.util.Random;
 
@@ -22,15 +14,17 @@ public class AlertBroadcast extends BroadcastReceiver {
 
     // String for AndroidManifest
     private static final String NOTIFICATION_BROADCAST_ALERT = "RATINGNOTIF";
+    public static final String FROM_NOTIFICATION = "com.example.coffeetracker2.ID.FROM_NOTIFICATION";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String CHANNEL_ID = "activity_channel";
 
-        // Changed intent class to redirect to RatingActivity when clicked
-        intent.setClass(context, RatingActivity.class);
+        // Changed intent class to redirect to MainActivity when clicked and putExtra for knowing which fragment to open
+        intent.setClass(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        intent.putExtra(FROM_NOTIFICATION, true);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Build the actual notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)

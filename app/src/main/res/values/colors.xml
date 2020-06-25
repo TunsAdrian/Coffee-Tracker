@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#302B2D</color>
-    <color name="colorSecondary">#D0B18C</color>
-    <color name="colorPrimaryDark">#FF3700B3</color>
+    <color name="colorPrimaryDark">#D0B18C</color>
     <color name="colorAccent">#806964</color>
-    <color name="colorRadioButton">#94A8A6</color>
+
 </resources>

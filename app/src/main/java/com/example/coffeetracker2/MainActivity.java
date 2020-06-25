@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,19 +15,16 @@ import com.example.coffeetracker2.database.Coffee;
 import com.example.coffeetracker2.fragments.CoffeeListFragment;
 import com.example.coffeetracker2.fragments.CoffeeSelectFragment;
 import com.example.coffeetracker2.fragments.StatisticsFragment;
+import com.example.coffeetracker2.utils.CoffeeRepository;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -49,22 +45,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         coffeeViewModel = new ViewModelProvider(this).get(CoffeeRepository.class);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
+
+        boolean fromNotification = false;
+
+        if (getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            fromNotification = bundle.getBoolean(AlertBroadcast.FROM_NOTIFICATION);
+        }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_placeholder, new CoffeeSelectFragment());
-        transaction.commit();
+        if (fromNotification){
+
+            navigationView.getMenu().getItem(2).setChecked(true);
+            transaction.replace(R.id.fragment_placeholder, new CoffeeListFragment());
+            transaction.commit();
+        } else {
+
+            navigationView.getMenu().getItem(0).setChecked(true);
+            transaction.replace(R.id.fragment_placeholder, new CoffeeSelectFragment());
+            transaction.commit();
+        }
     }
 
     public void registerCoffee(View view) {
@@ -112,19 +122,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
         if (id == R.id.nav_home) {
-            transaction.replace(R.id.fragment_placeholder, new CoffeeSelectFragment());
+            transaction.replace(R.id.fragment_placeholder, new CoffeeSelectFragment(), "CoffeeSelectFragment");
             transaction.commit();
         } else if (id == R.id.nav_coffee_list) {
-            transaction.replace(R.id.fragment_placeholder, new CoffeeListFragment());
+            transaction.replace(R.id.fragment_placeholder, new CoffeeListFragment(), "CoffeeListFragment");
             transaction.commit();
         } else if (id == R.id.nav_statistics) {
-            transaction.replace(R.id.fragment_placeholder, new StatisticsFragment());
+            transaction.replace(R.id.fragment_placeholder, new StatisticsFragment(), "StatisticsFragment");
             transaction.commit();
         }
 

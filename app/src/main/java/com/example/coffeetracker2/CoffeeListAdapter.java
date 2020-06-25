@@ -1,39 +1,33 @@
-package com.example.coffeetracker2.recyclerView;
+package com.example.coffeetracker2;
 
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
+
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.coffeetracker2.R;
 import com.example.coffeetracker2.database.Coffee;
 
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class CoffeeListAdapter extends ListAdapter<Coffee, CoffeeListAdapter.CoffeeHolder> {
-    //private ArrayList<CoffeeObject> coffeeList;
-    private List<Coffee> coffeeList;
-    private Context context;
-    private OnItemClickListener listener; //used for tap to edit contact
 
-    public CoffeeListAdapter(Context context) {
+    private OnItemClickListener listener; //used for tap to edit coffee
+
+    public CoffeeListAdapter() {
         super(DIFF_CALLBACK);
     }
 
-    private static DiffUtil.ItemCallback<Coffee> DIFF_CALLBACK= new DiffUtil.ItemCallback<Coffee>() {
+    private static DiffUtil.ItemCallback<Coffee> DIFF_CALLBACK = new DiffUtil.ItemCallback<Coffee>() {
         @Override
         public boolean areItemsTheSame(@NonNull Coffee oldItem, @NonNull Coffee newItem) {
             return oldItem.getId() == newItem.getId();
@@ -43,21 +37,22 @@ public class CoffeeListAdapter extends ListAdapter<Coffee, CoffeeListAdapter.Cof
         public boolean areContentsTheSame(@NonNull Coffee oldItem, @NonNull Coffee newItem) {
             return oldItem.getType().equals(newItem.getType()) &&
                     oldItem.getCaffeine() == (newItem.getCaffeine()) &&
-                    oldItem.getDate().equals(newItem.getDate());
+                    oldItem.getDate().equals(newItem.getDate()) &&
+                    oldItem.getProductivityRating() == newItem.getProductivityRating();
         }
     };
-
 
     @NonNull
     @Override
     public CoffeeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.coffee_item,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.coffee_item, parent, false);
         return new CoffeeHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CoffeeHolder holder, int position) {
+
         String pattern = "dd/MMM/yy - HH:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
@@ -74,36 +69,38 @@ public class CoffeeListAdapter extends ListAdapter<Coffee, CoffeeListAdapter.Cof
         holder.date.setText(setTextPlaceholder);
 
         if (currentCoffee.getProductivityRating() == -1) {
-            setTextPlaceholder = "Productivity level: no data" ;
+
+            holder.ratedImage.setImageResource(R.drawable.ic_star_border_black_24dp);
+            setTextPlaceholder = "Productivity level: not rated";
         } else {
+
+            holder.ratedImage.setImageResource(R.drawable.ic_star_black_24dp);
             setTextPlaceholder = "Productivity level: " + currentCoffee.getProductivityRating();
         }
         holder.rating.setText(setTextPlaceholder);
-
     }
 
-    //method used for swipe to DELETE
-    public Coffee getCoffeeAt(int position){
+    // Method used for delete on swipe
+    public Coffee getCoffeeAt(int position) {
         return getItem(position);
     }
 
-    public class CoffeeHolder extends RecyclerView.ViewHolder {
+    class CoffeeHolder extends RecyclerView.ViewHolder {
 
         private TextView coffeeType;
         private TextView caffeine;
         private TextView date;
         private TextView rating;
-        private int boundPosition;
-        private CheckBox ratingCheckBox;
+        private ImageView ratedImage;
 
-        public CoffeeHolder(@NonNull final View item_view) {
+        CoffeeHolder(@NonNull final View item_view) {
 
             super(item_view);
             coffeeType = item_view.findViewById(R.id.itemCoffee_type);
             caffeine = item_view.findViewById(R.id.itemCoffee_caffeine);
             date = item_view.findViewById(R.id.itemCoffee_date);
             rating = item_view.findViewById(R.id.itemCoffee_rating);
-
+            ratedImage = item_view.findViewById(R.id.itemCoffee_rating_checked);
 
             item_view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,16 +111,15 @@ public class CoffeeListAdapter extends ListAdapter<Coffee, CoffeeListAdapter.Cof
                     }
                 }
             });
-
         }
     }
 
-    //use this to edit contact on tap
-    public interface OnItemClickListener{
-        void onItemClick(Coffee contact);
+    // Used to rate coffee on tap
+    public interface OnItemClickListener {
+        void onItemClick(Coffee coffee);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.coffeetracker2;
+package com.example.coffeetracker2.utils;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData;
 import com.example.coffeetracker2.database.Coffee;
 import com.example.coffeetracker2.database.CoffeeDAO;
 import com.example.coffeetracker2.database.CoffeeDatabase;
-import com.example.coffeetracker2.utils.CoffeeViewModelUtils;
 
 import java.util.List;
 
@@ -37,17 +36,12 @@ public class CoffeeRepository extends AndroidViewModel {
         caffeineThisWeek = coffeeDao.getCaffeine(utils.getWeekBegin(), utils.getWeekEnd());
     }
 
-
     public void insert(Coffee coffee) {
         new InsertAsyncTask(coffeeDao).execute(coffee);
     }
 
     public void update(Coffee coffee) {
         new UpdateAsyncTask(coffeeDao).execute(coffee);
-    }
-
-    public void updateProductivity(Coffee coffee) {
-        new UpdateProductivityAsync(coffeeDao).execute(coffee);
     }
 
     public void delete(Coffee coffee){
@@ -58,7 +52,7 @@ public class CoffeeRepository extends AndroidViewModel {
         return coffeeNrToday;
     }
 
-    public LiveData<Integer> getCaffeine() {
+    public LiveData<Integer> getCaffeineToday() {
         return caffeineToday;
     }
 
@@ -74,6 +68,9 @@ public class CoffeeRepository extends AndroidViewModel {
         return allCoffees;
     }
 
+    public void deleteAll(){
+        new DeleteAllCoffeeAsync(coffeeDao).execute();
+    }
 
     @Override
     protected void onCleared() {
@@ -136,15 +133,17 @@ public class CoffeeRepository extends AndroidViewModel {
         }
     }
 
-    private static class UpdateProductivityAsync extends OperationsAsyncTask {
+    // Delete all coffee async
+    private static class DeleteAllCoffeeAsync extends AsyncTask<Void, Void, Void>{
 
-        UpdateProductivityAsync(CoffeeDAO dao) {
-            super(dao);
+        private CoffeeDAO coffeeDao;
+
+        private DeleteAllCoffeeAsync(CoffeeDAO dao){
+            this.coffeeDao = dao;
         }
-
         @Override
-        protected Void doInBackground(Coffee... coffees) {
-            mAsyncTaskDao.updateProductivity(coffees[0].getId(), coffees[0].getProductivityRating());
+        protected Void doInBackground(Void... voids) {
+            coffeeDao.deleteAll();
             return null;
         }
     }

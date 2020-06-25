@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".RatingActivity"
-            android:autoRemoveFromRecents="true" />
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Dialog" />
 
         <receiver android:name=".AlertBroadcast">
             <intent-filter>

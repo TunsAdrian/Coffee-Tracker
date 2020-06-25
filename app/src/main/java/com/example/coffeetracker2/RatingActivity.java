@@ -1,6 +1,7 @@
 package com.example.coffeetracker2;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,16 +21,16 @@ public class RatingActivity extends AppCompatActivity {
     public static final String EXTRA_DATE = "com.example.coffeetracker2.EXTRA_DATE";
     public static final String EXTRA_PRODUCTIVITY = "com.example.coffeetracker2.EXTRA_PRODUCTIVITY";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
+        this.setFinishOnTouchOutside(false);
 
-        setTitle("Productivity");
-        final RatingBar ratingBar = findViewById(R.id.act_ratingbar);
+        setTitle("Productivity rating");
+        final RatingBar ratingBar = findViewById(R.id.act_coffee_rating);
         final TextView ratingMessage = findViewById(R.id.act_rating_message);
-        Button getRating = findViewById(R.id.act_get_rating_btn);
+        final Button getRatingBtn = findViewById(R.id.act_get_rating_btn);
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -57,7 +58,7 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
-        getRating.setOnClickListener(new View.OnClickListener() {
+        getRatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ((int) ratingBar.getRating() > 0) {
@@ -65,19 +66,23 @@ public class RatingActivity extends AppCompatActivity {
                     Intent data = new Intent();
                     data.putExtra(EXTRA_PRODUCTIVITY, (int) ratingBar.getRating());
 
-
-
-                    //this is the case where we Edit a contact we also needs to send the ID
-                    //because an already existing contact does have an ID
                     int id = getIntent().getIntExtra(EXTRA_ID, -1);
-                    if( id != -1 ){
+                    String type = getIntent().getStringExtra(EXTRA_TYPE);
+                    int caffeine = getIntent().getIntExtra(EXTRA_CAFFEINE, -1);
+                    Long date = getIntent().getLongExtra(EXTRA_DATE, -1);
+
+                    data.putExtra(EXTRA_TYPE, type);
+                    data.putExtra(EXTRA_CAFFEINE, caffeine);
+                    data.putExtra(EXTRA_DATE, date);
+
+                    // For update operation the ID needs to be sent because an already existing coffee does have an ID
+                    if (id != -1) {
                         data.putExtra(EXTRA_ID, id);
                     }
-                    setResult(RESULT_OK, data);
 
-                    String rating = "Your rating has been registered.";
-                    Toast.makeText(RatingActivity.this, rating, Toast.LENGTH_LONG).show();
+                    setResult(Activity.RESULT_OK, data);
                     finish();
+
                 } else {
                     String rating = "Please rate your productivity.";
                     Toast.makeText(RatingActivity.this, rating, Toast.LENGTH_LONG).show();

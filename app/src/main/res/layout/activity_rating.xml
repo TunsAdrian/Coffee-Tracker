@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:id="@+id/layout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@android:color/white"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".RatingActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="How productive have you been after drinking your coffee?"
+        android:text="Rate your productivity after this coffee"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <RatingBar
-        android:id="@+id/act_ratingbar"
+        android:id="@+id/act_coffee_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorSecondary"
         android:numStars="5"
         android:progressTint="@color/colorPrimary"
         android:rating="3"
         android:saveEnabled="true"
-        android:stepSize="1.0" />
+        android:stepSize="1.0"
+        android:theme="@style/RatingBar" />
 
     <TextView
         android:id="@+id/act_rating_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_margin="8dp"
         android:gravity="center"
-        android:paddingBottom="16dp"
         android:text="@string/neutral_rating"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
@@ -46,6 +45,7 @@
         android:id="@+id/act_get_rating_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="Submit"
         android:textColor="@android:color/white" />
