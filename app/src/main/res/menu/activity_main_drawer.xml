@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/drawer_first_half"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_coffee_black"
@@ -16,5 +18,14 @@
             android:id="@+id/nav_coffee_list"
             android:icon="@drawable/ic_format_list_bulleted_black_24dp"
             android:title="@string/coffee_list" />
+    </group>
+
+    <group
+        android:id="@+id/drawer_second_half"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/sign_out_button"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/sign_out" />
     </group>
 </menu>

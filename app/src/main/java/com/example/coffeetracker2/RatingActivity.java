@@ -25,7 +25,6 @@ public class RatingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
-        this.setFinishOnTouchOutside(false);
 
         setTitle("Productivity rating");
         final RatingBar ratingBar = findViewById(R.id.act_coffee_rating);

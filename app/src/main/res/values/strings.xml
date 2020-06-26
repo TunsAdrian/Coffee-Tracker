@@ -16,6 +16,8 @@
     <string name="coffee_title_tracking">Coffee Tracking</string>
     <string name="coffee_statistics">Statistics</string>
     <string name="coffee_list">Coffee List</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="coffee_log_in">Sign in to Coffee Tracker</string>
 
     <string name="productivity_rating">Productivity</string>
     <string name="very_unproductive_rating">Very unproductive...</string>

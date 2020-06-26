@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "645233532726-dffum14jecraqgv16uj9a0bhqfm19h8j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.coffeetracker2",
+            "certificate_hash": "888c5b533aa06c9c3ea854beb313744818f40159"
+          }
+        },
+        {
           "client_id": "645233532726-ovaqnd5mkt5jh593lpb6j4tpemb0oqob.apps.googleusercontent.com",
           "client_type": 3
         }

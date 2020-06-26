@@ -115,7 +115,7 @@ public class CoffeeListFragment extends Fragment {
 
             Toast.makeText(getContext(), "Your rating has been registered", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "An error has occurred", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "The rating was not changed", Toast.LENGTH_SHORT).show();
         }
     }
 }
