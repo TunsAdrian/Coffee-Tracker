@@ -34,7 +34,6 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -112,21 +111,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Coffee smallCoffee = new Coffee("Small", 40, Calendar.getInstance().getTime(), -1);
                 coffeeViewModel.insert(smallCoffee);
 
-                Toast.makeText(MainActivity.this, "Small coffee registered", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Small coffee registered", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.frag_medium_coffee:
 
                 Coffee midCoffee = new Coffee("Medium", 60, Calendar.getInstance().getTime(), -1);
                 coffeeViewModel.insert(midCoffee);
 
-                Toast.makeText(MainActivity.this, "Medium coffee registered", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Medium coffee registered", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.frag_large_coffee:
 
                 Coffee largeCoffee = new Coffee("Large", 80, Calendar.getInstance().getTime(), -1);
                 coffeeViewModel.insert(largeCoffee);
 
-                Toast.makeText(MainActivity.this, "Large coffee registered", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Large coffee registered", Toast.LENGTH_SHORT).show();
                 break;
         }
 

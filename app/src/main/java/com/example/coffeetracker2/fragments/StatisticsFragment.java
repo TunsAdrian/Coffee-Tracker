@@ -8,16 +8,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.coffeetracker2.MainActivity;
 import com.example.coffeetracker2.R;
+import com.example.coffeetracker2.database.Coffee;
 import com.example.coffeetracker2.utils.CoffeeRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -32,13 +33,19 @@ public class StatisticsFragment extends Fragment {
 
     private static final String TAG = "StatisticsFragment";
     private CoffeeRepository coffeeRepository;
+    private LineChartView lineChartView;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
-        createActivityLevelChart(root);
+        coffeeRepository = new ViewModelProvider(requireActivity()).get(CoffeeRepository.class);
+        lineChartView = root.findViewById(R.id.frag_activity_level_chart);
         setStatistics(root);
+        try {
+            createActivityLevelChart(root);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return root;
     }
@@ -51,7 +58,6 @@ public class StatisticsFragment extends Fragment {
         final TextView caffeineToday_TW = view.findViewById(R.id.frag_caffeine_today_count);
         final TextView caffeineWeek_TW = view.findViewById(R.id.frag_caffeine_week_count);
 
-        coffeeRepository = new ViewModelProvider(requireActivity()).get(CoffeeRepository.class);
         coffeeRepository.getCoffeeNrToday().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -81,28 +87,19 @@ public class StatisticsFragment extends Fragment {
             @Override
             public void onChanged(Integer integer) {
 
-                if(integer != null) {
+                if (integer != null) {
                     caffeineWeek_TW.setText(integer.toString() + " mg caffeine");
                 }
             }
         });
     }
 
-    private void createActivityLevelChart(View v) {
+    private void createActivityLevelChart(View v) throws ExecutionException, InterruptedException {
 
         final int NR_DAYS_SEEN_ON_SCREEN = 5;
-
-        //TODO Must be connected with the DB. yAxisData should be the productivity grades, coffeeConsumed the number of coffee from that day
-        String[] xAxisData = {"May 4", "May 5", "May 6", "May 7", "May 8", "May 9", "May 10", "May 11", "May 12", "May 13", "May 14", "May 15",
-                "May 16", "MAy 17", "May 18", "May 19", "May 20", "May 21", "May 22", "May 23", "May 24", "May 25", "May 26",
-                "May 27", "May 28", "May 30", "May 31", "Jun 1", "Jun 2", "Jun 3"};
-        int[] yAxisData = {1, 2, 3, 5, 4, 2, 5, 1, 2, 3, 5, 4, 2, 5, 5, 4, 2, 3, 5, 4, 2, 1, 2, 2, 5, 2, 1, 5, 3, 4};
-        int[] coffeeConsumed = {2, 3, 1, 5, 4, 2, 4, 2, 3, 1, 5, 4, 2, 4, 6, 1, 6, 5, 3, 4, 4, 6, 5, 3, 4, 3, 5, 3, 2, 5};
-
-        LineChartView lineChartView = v.findViewById(R.id.frag_activity_level_chart);
-
         List<AxisValue> xAxisValues = new ArrayList<>();
         List<PointValue> yAxisValues = new ArrayList<>();
+        List<Coffee> coffees = coffeeRepository.getCoffeesWithProductivity();
 
         // Set line color with our Secondary Color and labels for the selected points
         Line line = new Line(yAxisValues)
@@ -110,14 +107,11 @@ public class StatisticsFragment extends Fragment {
                 .setHasLabels(true)
                 .setHasLabelsOnlyForSelected(true);
 
-        // Populate xAxisValues array
-        for (int i = 0; i < xAxisData.length; i++) {
-            xAxisValues.add(i, new AxisValue(i).setLabel(xAxisData[i]));
-        }
-
-        // Populate yAxisValues array and set each point's labels
-        for (int i = 0; i < yAxisData.length; i++) {
-            yAxisValues.add(new PointValue(i, yAxisData[i]).setLabel(String.valueOf(coffeeConsumed[i])));
+        String pattern = "MMM dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        for (int i = 0; i < coffees.size(); i++) {
+            xAxisValues.add(i, new AxisValue(i).setLabel(simpleDateFormat.format(coffees.get(i).getDate())));
+            yAxisValues.add(new PointValue(i, coffees.get(i).getProductivityRating()));
         }
 
         // This list holds the line of the graph chart
@@ -161,8 +155,8 @@ public class StatisticsFragment extends Fragment {
         lineChartView.setZoomEnabled(false);
 
         // Set left and right as length of dates and length minus a number of days
-        viewport.left = xAxisData.length - NR_DAYS_SEEN_ON_SCREEN;
-        viewport.right = xAxisData.length;
+        viewport.left = xAxisValues.size() - NR_DAYS_SEEN_ON_SCREEN;
+        viewport.right = xAxisValues.size();
 
         // Update the lineChartView
         lineChartView.setCurrentViewport(viewport);

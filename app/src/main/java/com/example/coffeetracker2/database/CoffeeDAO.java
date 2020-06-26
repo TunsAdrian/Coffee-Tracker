@@ -15,6 +15,9 @@ public interface CoffeeDAO {
     @Query("SELECT * FROM coffee ORDER BY date DESC")
     LiveData<List<Coffee>> getCoffeeList();
 
+    @Query("SELECT * FROM coffee WHERE productivity_rating != -1 ORDER BY date")
+    List<Coffee> getCoffeeListWithProductivity();
+
     @Query("SELECT COUNT(*) FROM coffee WHERE date BETWEEN :dayStart AND :dayEnd")
     LiveData<Integer> getCoffeeNr(Date dayStart, Date dayEnd);
 

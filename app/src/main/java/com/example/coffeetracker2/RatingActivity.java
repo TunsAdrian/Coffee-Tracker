@@ -31,29 +31,13 @@ public class RatingActivity extends AppCompatActivity {
         final TextView ratingMessage = findViewById(R.id.act_rating_message);
         final Button getRatingBtn = findViewById(R.id.act_get_rating_btn);
 
+        ratingBar.setRating(getIntent().getIntExtra(EXTRA_PRODUCTIVITY, 3));
+        changeRatingMessage(ratingBar, ratingMessage);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 ratingMessage.setText(String.valueOf(v));
-                switch ((int) ratingBar.getRating()) {
-                    case 1:
-                        ratingMessage.setText(R.string.very_unproductive_rating);
-                        break;
-                    case 2:
-                        ratingMessage.setText(R.string.unproductive_rating);
-                        break;
-                    case 3:
-                        ratingMessage.setText(R.string.neutral_rating);
-                        break;
-                    case 4:
-                        ratingMessage.setText(R.string.productive_rating);
-                        break;
-                    case 5:
-                        ratingMessage.setText(R.string.very_productive_rating);
-                        break;
-                    default:
-                        ratingMessage.setText("");
-                }
+                changeRatingMessage(ratingBar, ratingMessage);
             }
         });
 
@@ -83,11 +67,33 @@ public class RatingActivity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    String rating = "Please rate your productivity.";
-                    Toast.makeText(RatingActivity.this, rating, Toast.LENGTH_LONG).show();
+                    String rating = "Please rate your productivity";
+                    Toast.makeText(RatingActivity.this, rating, Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void changeRatingMessage(RatingBar ratingBar, TextView ratingMessage) {
+        switch ((int) ratingBar.getRating()) {
+            case 1:
+                ratingMessage.setText(R.string.very_unproductive_rating);
+                break;
+            case 2:
+                ratingMessage.setText(R.string.unproductive_rating);
+                break;
+            case 3:
+                ratingMessage.setText(R.string.neutral_rating);
+                break;
+            case 4:
+                ratingMessage.setText(R.string.productive_rating);
+                break;
+            case 5:
+                ratingMessage.setText(R.string.very_productive_rating);
+                break;
+            default:
+                ratingMessage.setText("");
+        }
     }
 }
 

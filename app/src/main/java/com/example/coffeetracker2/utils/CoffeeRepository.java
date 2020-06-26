@@ -12,6 +12,7 @@ import com.example.coffeetracker2.database.CoffeeDAO;
 import com.example.coffeetracker2.database.CoffeeDatabase;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CoffeeRepository extends AndroidViewModel {
 
@@ -24,12 +25,14 @@ public class CoffeeRepository extends AndroidViewModel {
     private LiveData<Integer> caffeineToday;
     private LiveData<Integer> coffeeNrThisWeek;
     private LiveData<Integer> caffeineThisWeek;
+    private List<Coffee> coffeesWithProductivity;
 
     public CoffeeRepository(Application application) {
         super(application);
         coffeeDatabase = CoffeeDatabase.getDatabase(application);
         coffeeDao = coffeeDatabase.coffeeDao();
         allCoffees = coffeeDao.getCoffeeList();
+
         coffeeNrToday = coffeeDao.getCoffeeNr(utils.getTodayBegin(), utils.getTodayEnd());
         caffeineToday = coffeeDao.getCaffeine(utils.getTodayBegin(), utils.getTodayEnd());
         coffeeNrThisWeek = coffeeDao.getCoffeeNr(utils.getWeekBegin(), utils.getWeekEnd());
@@ -66,6 +69,10 @@ public class CoffeeRepository extends AndroidViewModel {
 
     public LiveData<List<Coffee>> getAllCoffees() {
         return allCoffees;
+    }
+
+    public List<Coffee> getCoffeesWithProductivity() throws ExecutionException, InterruptedException {
+        return new GetCoffeeProductivity(coffeeDao).execute().get();
     }
 
     public void deleteAll(){
@@ -145,6 +152,21 @@ public class CoffeeRepository extends AndroidViewModel {
         protected Void doInBackground(Void... voids) {
             coffeeDao.deleteAll();
             return null;
+        }
+    }
+
+    // AsyncTask that gets no parameter and returns a list of Coffees
+    private static class GetCoffeeProductivity extends AsyncTask<Void, Void, List<Coffee>> {
+
+        private CoffeeDAO coffeeDAO;
+
+        private GetCoffeeProductivity(CoffeeDAO dao) {
+            this.coffeeDAO = dao;
+        }
+
+        @Override
+        protected List<Coffee> doInBackground(Void... voids) {
+            return coffeeDAO.getCoffeeListWithProductivity();
         }
     }
 }
