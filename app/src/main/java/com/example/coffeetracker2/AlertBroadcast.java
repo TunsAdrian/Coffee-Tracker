@@ -14,7 +14,7 @@ public class AlertBroadcast extends BroadcastReceiver {
 
     // String for AndroidManifest
     private static final String NOTIFICATION_BROADCAST_ALERT = "RATINGNOTIF";
-    public static final String FROM_NOTIFICATION = "com.example.coffeetracker2.ID.FROM_NOTIFICATION";
+    public static final String FROM_NOTIFICATION = "com.example.coffeetracker2.FROM_NOTIFICATION";
 
     @Override
     public void onReceive(Context context, Intent intent) {

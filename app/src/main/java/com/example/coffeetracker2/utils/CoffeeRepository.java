@@ -16,16 +16,15 @@ import java.util.concurrent.ExecutionException;
 
 public class CoffeeRepository extends AndroidViewModel {
 
-    private CoffeeViewModelUtils utils = new CoffeeViewModelUtils();
     private String TAG = this.getClass().getSimpleName();
     private CoffeeDAO coffeeDao;
     private CoffeeDatabase coffeeDatabase;
+    private CoffeeViewModelUtils utils = new CoffeeViewModelUtils();
     private LiveData<List<Coffee>> allCoffees;
     private LiveData<Integer> coffeeNrToday;
     private LiveData<Integer> caffeineToday;
     private LiveData<Integer> coffeeNrThisWeek;
     private LiveData<Integer> caffeineThisWeek;
-    private List<Coffee> coffeesWithProductivity;
 
     public CoffeeRepository(Application application) {
         super(application);
@@ -51,6 +50,14 @@ public class CoffeeRepository extends AndroidViewModel {
         new DeleteAsyncTask(coffeeDao).execute(coffee);
     }
 
+    public List<Coffee> getCoffeesWithProductivity() throws ExecutionException, InterruptedException {
+        return new CoffeeWithProductivity(coffeeDao).execute().get();
+    }
+
+    public LiveData<List<Coffee>> getAllCoffees() {
+        return allCoffees;
+    }
+
     public LiveData<Integer> getCoffeeNrToday() {
         return coffeeNrToday;
     }
@@ -65,14 +72,6 @@ public class CoffeeRepository extends AndroidViewModel {
 
     public LiveData<Integer> getCaffeineThisWeek() {
         return caffeineThisWeek;
-    }
-
-    public LiveData<List<Coffee>> getAllCoffees() {
-        return allCoffees;
-    }
-
-    public List<Coffee> getCoffeesWithProductivity() throws ExecutionException, InterruptedException {
-        return new GetCoffeeProductivity(coffeeDao).execute().get();
     }
 
     public void deleteAll(){
@@ -140,7 +139,7 @@ public class CoffeeRepository extends AndroidViewModel {
         }
     }
 
-    // Delete all coffee async
+    // Delete all coffees async
     private static class DeleteAllCoffeeAsync extends AsyncTask<Void, Void, Void>{
 
         private CoffeeDAO coffeeDao;
@@ -156,11 +155,11 @@ public class CoffeeRepository extends AndroidViewModel {
     }
 
     // AsyncTask that gets no parameter and returns a list of Coffees
-    private static class GetCoffeeProductivity extends AsyncTask<Void, Void, List<Coffee>> {
+    private static class CoffeeWithProductivity extends AsyncTask<Void, Void, List<Coffee>> {
 
         private CoffeeDAO coffeeDAO;
 
-        private GetCoffeeProductivity(CoffeeDAO dao) {
+        private CoffeeWithProductivity(CoffeeDAO dao) {
             this.coffeeDAO = dao;
         }
 

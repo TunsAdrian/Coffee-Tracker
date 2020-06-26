@@ -42,7 +42,7 @@ public class StatisticsFragment extends Fragment {
         lineChartView = root.findViewById(R.id.frag_activity_level_chart);
         setStatistics(root);
         try {
-            createActivityLevelChart(root);
+            createActivityLevelChart();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -94,14 +94,14 @@ public class StatisticsFragment extends Fragment {
         });
     }
 
-    private void createActivityLevelChart(View v) throws ExecutionException, InterruptedException {
+    private void createActivityLevelChart() throws ExecutionException, InterruptedException {
 
         final int NR_DAYS_SEEN_ON_SCREEN = 5;
         List<AxisValue> xAxisValues = new ArrayList<>();
         List<PointValue> yAxisValues = new ArrayList<>();
         List<Coffee> coffees = coffeeRepository.getCoffeesWithProductivity();
 
-        // Set line color with our Secondary Color and labels for the selected points
+        // Set line color Primary Color and set labels for the selected points
         Line line = new Line(yAxisValues)
                 .setColor(this.getResources().getColor(R.color.colorPrimary))
                 .setHasLabels(true)
