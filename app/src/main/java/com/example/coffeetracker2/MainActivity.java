@@ -1,9 +1,5 @@
 package com.example.coffeetracker2;
 
-import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -11,14 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.coffeetracker2.database.Coffee;
 import com.example.coffeetracker2.fragments.CoffeeListFragment;
 import com.example.coffeetracker2.fragments.CoffeeSelectFragment;
 import com.example.coffeetracker2.fragments.StatisticsFragment;
@@ -38,8 +31,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.Calendar;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,11 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        createNotificationChannel();
         firebaseAuth = FirebaseAuth.getInstance();
         coffeeViewModel = new ViewModelProvider(this).get(CoffeeRepository.class);
         initView();
-
 
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,49 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void registerCoffee(View view) {
-
-        // Separate the cases for each type of coffee
-        switch (view.getId()) {
-            case R.id.frag_small_coffee:
-
-                Coffee smallCoffee = new Coffee("Small", 40, Calendar.getInstance().getTime(), -1);
-                coffeeViewModel.insert(smallCoffee);
-
-                Toast.makeText(MainActivity.this, "Small coffee registered", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.frag_medium_coffee:
-
-                Coffee midCoffee = new Coffee("Medium", 60, Calendar.getInstance().getTime(), -1);
-                coffeeViewModel.insert(midCoffee);
-
-                Toast.makeText(MainActivity.this, "Medium coffee registered", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.frag_large_coffee:
-
-                Coffee largeCoffee = new Coffee("Large", 80, Calendar.getInstance().getTime(), -1);
-                coffeeViewModel.insert(largeCoffee);
-
-                Toast.makeText(MainActivity.this, "Large coffee registered", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
-        // Prepare intent to call in alarm manager
-        Intent intent = new Intent(MainActivity.this, AlertBroadcast.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        // Get system time when button is clicked and number of seconds for when to show notification
-        long timeButtonClicked = System.currentTimeMillis();
-        long threeSeconds = 1000 * 3;
-
-        // Set the actual alarm
-        if (alarmManager != null) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, timeButtonClicked + threeSeconds, pendingIntent);
-        }
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -180,27 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-    }
-
-    private void createNotificationChannel() {
-
-        String CHANNEL_ID = "activity_channel";
-        // Create the NotificationChannel, but only on API 26+ because the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            CharSequence name = "Activity Channel";
-            String description = "Notification channel for rating productivity after a coffee";
-
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-
-            // Register the channel with the system; you can't change the importance or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
     }
 
     private void signOut() {

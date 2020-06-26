@@ -5,41 +5,91 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".fragments.CoffeeSelectFragment">
 
-    <Button
-        android:id="@+id/frag_small_coffee"
-        android:layout_width="192dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:background="@color/colorPrimary"
-        android:onClick="registerCoffee"
-        android:padding="16dp"
-        android:text="Small coffee"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/frag_medium_coffee"
-        android:layout_width="192dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:background="@color/colorPrimary"
-        android:onClick="registerCoffee"
-        android:padding="16dp"
-        android:text="Medium coffee"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        <NumberPicker
+            android:id="@+id/frag_small_coffee_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/frag_large_coffee"
-        android:layout_width="192dp"
+        <Button
+            android:id="@+id/frag_small_coffee"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:background="@color/colorPrimary"
+            android:padding="16dp"
+            android:text="Small coffee"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/colorAccent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:background="@color/colorPrimary"
-        android:onClick="registerCoffee"
-        android:padding="16dp"
-        android:text="Large coffee"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/frag_medium_coffee_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/frag_medium_coffee"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:background="@color/colorPrimary"
+            android:padding="16dp"
+            android:text="Medium coffee"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/colorAccent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/frag_large_coffee_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/frag_large_coffee"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:background="@color/colorPrimary"
+            android:padding="16dp"
+            android:text="Large coffee"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
 </LinearLayout>

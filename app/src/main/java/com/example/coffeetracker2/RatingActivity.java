@@ -31,7 +31,10 @@ public class RatingActivity extends AppCompatActivity {
         final TextView ratingMessage = findViewById(R.id.act_rating_message);
         final Button getRatingBtn = findViewById(R.id.act_get_rating_btn);
 
-        ratingBar.setRating(getIntent().getIntExtra(EXTRA_PRODUCTIVITY, 3));
+        if (getIntent().getIntExtra(EXTRA_PRODUCTIVITY,3) != -1) {
+            ratingBar.setRating(getIntent().getIntExtra(EXTRA_PRODUCTIVITY, 3));
+        }
+
         changeRatingMessage(ratingBar, ratingMessage);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
