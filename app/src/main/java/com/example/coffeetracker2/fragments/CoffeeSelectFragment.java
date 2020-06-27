@@ -149,7 +149,7 @@ public class CoffeeSelectFragment extends Fragment implements View.OnClickListen
 
         String[] numberValues = new String[maxPickerValue - minPickerValue + 1];
         for (int i = 0; i <= maxPickerValue - minPickerValue; i++) {
-            numberValues[i] = String.valueOf((minPickerValue + i) * stepSize);
+            numberValues[i] = String.valueOf((minPickerValue + i) * stepSize) + " mg";
         }
 
         smallCoffeePicker.setMinValue(0);
