@@ -62,21 +62,21 @@ public class CoffeeSelectFragment extends Fragment implements View.OnClickListen
         switch (view.getId()) {
             case R.id.frag_small_coffee:
 
-                Coffee smallCoffee = new Coffee("Small", Integer.parseInt(numberValues[smallCoffeePicker.getValue()]), Calendar.getInstance().getTime(), -1);
+                Coffee smallCoffee = new Coffee("Small", Integer.parseInt(numberValues[smallCoffeePicker.getValue()].substring(0, numberValues[smallCoffeePicker.getValue()].length() -3 )), Calendar.getInstance().getTime(), -1);
                 coffeeViewModel.insert(smallCoffee);
 
                 Toast.makeText(getContext(), "Small coffee registered", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.frag_medium_coffee:
 
-                Coffee midCoffee = new Coffee("Medium", Integer.parseInt(numberValues[mediumCoffeePicker.getValue()]), Calendar.getInstance().getTime(), -1);
+                Coffee midCoffee = new Coffee("Medium", Integer.parseInt(numberValues[mediumCoffeePicker.getValue()].substring(0, numberValues[mediumCoffeePicker.getValue()].length() - 3)), Calendar.getInstance().getTime(), -1);
                 coffeeViewModel.insert(midCoffee);
 
                 Toast.makeText(getContext(), "Medium coffee registered", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.frag_large_coffee:
 
-                Coffee largeCoffee = new Coffee("Large", Integer.parseInt(numberValues[largeCoffeePicker.getValue()]), Calendar.getInstance().getTime(), -1);
+                Coffee largeCoffee = new Coffee("Large", Integer.parseInt(numberValues[largeCoffeePicker.getValue()].substring(0, numberValues[largeCoffeePicker.getValue()].length() - 3)), Calendar.getInstance().getTime(), -1);
                 coffeeViewModel.insert(largeCoffee);
 
                 Toast.makeText(getContext(), "Large coffee registered", Toast.LENGTH_SHORT).show();
