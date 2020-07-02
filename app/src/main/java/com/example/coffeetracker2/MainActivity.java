@@ -101,17 +101,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
 
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_placeholder, new CoffeeSelectFragment(), "CoffeeSelectFragment");
+            transaction.replace(R.id.fragment_placeholder, new CoffeeSelectFragment(), "CoffeeSelectFragment").addToBackStack("CoffeeSelectFragment");
             transaction.commit();
         } else if (id == R.id.nav_coffee_list) {
 
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_placeholder, new CoffeeListFragment(), "CoffeeListFragment");
+            transaction.replace(R.id.fragment_placeholder, new CoffeeListFragment(), "CoffeeListFragment").addToBackStack("CoffeeListFragment");
             transaction.commit();
         } else if (id == R.id.nav_statistics) {
 
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_placeholder, new StatisticsFragment(), "StatisticsFragment");
+            transaction.replace(R.id.fragment_placeholder, new StatisticsFragment(), "StatisticsFragment").addToBackStack("StatisticsFragment");
             transaction.commit();
         } else if (id == R.id.sign_out_button) {
 
@@ -120,6 +120,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            //Go back to previous Fragment
+            fragmentManager.popBackStackImmediate();
+        } else {
+            //Nothing in the back stack, so exit application
+            finishAffinity();
+        }
     }
 
     private void initView() {
