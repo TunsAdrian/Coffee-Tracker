@@ -4,14 +4,6 @@ Coffee Tracker aplication created for Google Android Fundamentals Course. The pu
 
 For this application, sign-in with a Google account is required after opening the application. There are 3 coffee sizes that can have their default values set to any value between 0 and 200 mg. After registering a coffee, at a certain amount of time (5 seconds now, for testing purposes; a more appropiate value would be 1 hour) a push notification will be received, to remember to rate the productivity levels felt after drinking said coffee. After rating the productivity leves on a scale from 1 to 5, the statistics will be updated. They can be accesed from the drawer menu. And finally, in order to delete an entry from the coffee list, a swipe from left to right is needed.
 
-<p>
-  <img src="/github-images/SignIn_Screen.jpg" width="33%"/>
-  <img src="/github-images/Add_Coffe_Screen.jpg" width="33%"/>
-  <img src="/github-images/Drawer_Menu.jpg" width="33%"/>
-</p>
+<img src="/github-images/Github_Picture_1.png"/>
 
-<p>
-  <img src="/github-images/Registered_Coffee_Screen.jpg" width="33%"/>
-  <img src="/github-images/Rate_Activity_Dialog.jpg" width="33%"/>
-  <img src="/github-images/Activity_Statistics_Screen.jpg" width="33%"/>
-</p>
+<img src="/github-images/Github_Picture_2.png"/>
